@@ -6,4 +6,4 @@ Hallo
 
 Dengan blade bisa {{$nama}}
 
-iyaakann
+iyaakann  gaess

@@ -3,8 +3,12 @@
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FrontEndController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\DashboardController;
 use App\Models\Product;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,17 +20,13 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+ Route::middleware(['ceklevel:admin'])->group() {
 
-Route::get('/',[FrontEndController::class,'index']);
-
-
-Route::get('/home', function () {
-    return view('home');
-});
-
-Route::get('/coba_controller', [App\Http\Controllers\CobaController::class,'index']);
+    Route::middleware(['ceklevel::admin'])->group(function (){
 
 
+Route::middleware(['auth'])->group(function () {
+    Route:: get('/dashboard', function () {});
 
 Route::get('/admin/products', [App\Http\Controllers\ProductController::class,'index'])->name('products.index');
 
@@ -52,3 +52,25 @@ Route::delete('admin/categories/{id}',[ CategoryController::class,'delete'])->na
 Route::get('admin/categories/{id}',[CategoryController::class,'edit']) ->name('categories.edit');
 
 Route::put('admin/categories/{id}',[ CategoryController::class,'update']) ->name('categories.update');
+
+});
+Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
+
+Route::get('/logout',[LoginController::class,'logout'])->name('logout');
+
+Route::get('/login',[LoginController::class,'index'])->name('login');
+
+Route::post('/login',[LoginController::class,'authenticate'])->name('login.post');
+
+Route::get('/',[FrontEndController::class,'index']);
+
+
+Route::get('/home', function () {
+    return view('home');
+});
+ Route::get('/coba_controller',[App\Http\Controllers\coba_controller::class,'index']);
+
+ Route::get('/register',[LoginController::class,'register'])->name('register');
+
+ Route::post('/register',[App\Http\Controllers\Login_controller::class,'registerPost'])->name('register.Post');
+
