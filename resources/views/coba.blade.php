@@ -6,3 +6,4 @@ Hallo
 
 Dengan blade bisa {{$nama}}
 
+iyaakann
